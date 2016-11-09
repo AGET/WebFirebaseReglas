@@ -1,0 +1,25 @@
+.spacer-sm {
+    margin-left: 35px;
+}
+
+.input-xs {
+    height: 34px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.white{
+	color: white !important;
+}
+
+.usrPhoto{
+	width: 40px;
+	height: 40px;
+	margin: -10px 10px;
+	border: 1px solid #fff;
+	border-radius: 10px;
+	float: left; 
+	background-size: contain;
+}

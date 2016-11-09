@@ -1,0 +1,151 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Bases de Datos con Firebase</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeN2vV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- // <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/3.0.4/firebase.js"></script>
+    <!-- Custom files -->
+    <link rel="stylesheet" type="text/css" href="base.css">
+    <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Firebase - Base de datos</a>
+            </div>
+            <div class="authUserData navbar-text white">
+                <div class="usrPhoto"></div>
+                Bienvenido
+                <label id="authUser"></label> estas registrado con
+                <label id="authProvider"></label>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <span id="btnLogin" type="button" class="btn btn-success navbar-btn glyphicon glyphicon-log-in"> Acceder</span>
+                    <span id="btnLogout" type="button" class="btn btn-danger navbar-btn glyphicon glyphicon-log-out"> Logout</span>
+                </li>
+                <li>
+                    <div class="col-md-1"></div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form>
+                    <div class="form-group">
+                        <label for="fullName">Nombre completo</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                            <input type="text" class="form-control" id="fullName" placeholder="Escribe tu nombre...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mail">Correo electrónico</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">@</span>
+                            <input type="text" class="form-control" id="mail" placeholder="Escribe tu correo...">
+                        </div>
+                    </div>
+                    <div class="form-group form-inline ">
+                        <div class="form-group">
+                            <label for="number">Número</label>
+                            <input type="number" class="form-control input-xs" id="number">
+                        </div>
+                        <div class="form-group spacer-sm">
+                            <label for="position">Posición</label>
+                            <select class="form-control" id="position">
+                                <option>Pasador</option>
+                                <option>Corredor</option>
+                                <option>Receptor</option>
+                                <option>Tacle</option>
+                                <option>Centro</option>
+                                <option>Ala</option>
+                                <option>Guardia Nariz</option>
+                                <option>Apoyador</option>
+                                <option>Profundo</option>
+                                <option>Esquinero</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <div id="btnSend" type="button" class="btn btn-primary btn-block">Enviar</div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <table id="playersTable" class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr class="info">
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Número</th>
+                            <th>Posición</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Ventanas modales -->
+    <!-- Ventana de error -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header alert-danger">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Error</h4>
+                </div>
+                <div class="modal-body text-center">
+                    ¡El dato ya existe en la base de datos!
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Ventana de no sesión -->
+    <div class="modal fade" id="myModalNoSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header alert-warning">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Sin sesión</h4>
+                </div>
+                <div class="modal-body text-center">
+                    No hay una sesión activa o se ha cerrado sesión
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="myModalErrorSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header alert-danger">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Error </h4>
+                </div>
+                <div class="modal-body text-center" id="label_error">
+                    Verifique los datos 
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
